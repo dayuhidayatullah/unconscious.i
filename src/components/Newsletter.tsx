@@ -1,7 +1,7 @@
 import { sectionTag } from "../lib/classes";
 import { Container } from "./ui";
 
-export function Newsletter({ onSubscribe }: { onSubscribe: () => void }) {
+export function Newsletter({ onSubscribe }: { onSubscribe: (email: string) => Promise<boolean> }) {
   return (
     <section className="relative overflow-hidden py-32">
       <Container>
@@ -16,13 +16,17 @@ export function Newsletter({ onSubscribe }: { onSubscribe: () => void }) {
             </p>
             <form
               className="flex flex-col gap-2 md:flex-row"
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
-                onSubscribe();
+                const form = e.currentTarget;
+                const email = new FormData(form).get("email") as string;
+                if (await onSubscribe(email)) form.reset();
               }}
             >
               <input
                 type="email"
+                name="email"
+                aria-label="Email"
                 placeholder="Email address"
                 required
                 className="flex-1 rounded-lg border border-border-light bg-bg-primary px-6 py-4 font-body text-[0.9rem] text-text-primary outline-none transition-colors duration-300 placeholder:text-text-muted focus:border-accent"

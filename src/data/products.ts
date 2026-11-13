@@ -95,16 +95,19 @@ export const categories: Category[] = [
     name: "Tees & Longsleeves",
     count: "12 Products",
     image: "/images/tshirt-graphic.png",
+    match: ["Tees"],
   },
   {
     name: "Sweaters & Outerwear",
     count: "8 Products",
     image: "/images/pullover-sweater.png",
+    match: ["Sweaters", "Outerwear"],
   },
   {
     name: "Accessories",
     count: "6 Products",
     image: "/images/fleece-balaclava.png",
+    match: ["Accessories", "Bags"],
   },
 ];
 

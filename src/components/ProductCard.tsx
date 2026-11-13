@@ -1,21 +1,33 @@
 import type { Product } from "../types";
 import { formatPrice } from "../data/products";
+import { LazyImage } from "./LazyImage";
 
 interface ProductCardProps {
   product: Product;
   onQuickView: (p: Product) => void;
+  wished: boolean;
+  onToggleWish: (id: number) => void;
 }
 
-export function ProductCard({ product, onQuickView }: ProductCardProps) {
+export function ProductCard({ product, onQuickView, wished, onToggleWish }: ProductCardProps) {
   return (
     <div className="group relative cursor-pointer animate-card-in nth-1:[animation-delay:100ms] nth-2:[animation-delay:200ms] nth-3:[animation-delay:300ms] nth-4:[animation-delay:400ms]">
       <div className="relative mb-4 aspect-3/4 overflow-hidden rounded-xl bg-bg-tertiary">
-        <img
+        <LazyImage
           src={product.image}
           alt={product.name}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          className="transition-transform duration-500 group-hover:scale-105"
         />
+        <button
+          onClick={() => onToggleWish(product.id)}
+          aria-label={wished ? "Hapus dari wishlist" : "Tambah ke wishlist"}
+          aria-pressed={wished}
+          className={`absolute top-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-black/50 text-lg backdrop-blur transition-all duration-300 hover:scale-110 ${
+            wished ? "text-[#ff4d6d]" : "text-white"
+          }`}
+        >
+          {wished ? "♥" : "♡"}
+        </button>
         {product.badge && (
           <span className="absolute top-4 left-4 rounded-sm bg-accent px-2 py-1 font-display text-[0.65rem] font-bold uppercase tracking-[1px] text-bg-primary">
             {product.badge}
